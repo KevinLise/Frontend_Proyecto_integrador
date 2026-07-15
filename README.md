@@ -5,6 +5,8 @@ Cumple el requisito del enunciado de "SPA sin frameworks" — toda la
 navegación pasa por un solo `index.html` y un hash router en JS puro.
 
 ## Estructura
+
+```
 frontend/
 ├── index.html                    # shell fijo: sidebar + header + <main id="app">
 ├── src/
@@ -22,7 +24,7 @@ frontend/
 │           ├── reportes.js
 │           ├── configuracion.js
 │           └── placeholder.js    # usado solo para vistas aún sin diseñar
-
+```
 ## Cómo funciona la SPA
 
 1. `index.html` nunca se recarga: solo tiene un `<main id="app">` vacío.
