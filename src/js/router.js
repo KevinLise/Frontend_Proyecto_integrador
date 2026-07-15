@@ -1,11 +1,8 @@
 import { renderDashboard } from './views/dashboard.js';
 import { renderProductos } from './views/productos.js';
 import { renderConfiguracion } from './views/configuracion.js';
-<<<<<<< HEAD
 import { renderReportes } from './views/reportes.js';
 import { renderMovimientos } from './views/movimientos.js';
-=======
->>>>>>> 1f56580bc884ee96a8a9ce579bf1cb7982602bda
 import { renderPlaceholder } from './views/placeholder.js';
 import { ICONS } from './icons.js';
 
@@ -14,13 +11,8 @@ import { ICONS } from './icons.js';
 const ROUTES = {
   dashboard: { title: 'Dashboard', icon: ICONS.grid, render: renderDashboard },
   productos: { title: 'Productos', icon: ICONS.package, render: renderProductos },
-<<<<<<< HEAD
   movimientos: { title: 'Movimientos', icon: ICONS.swap, render: renderMovimientos },
   reportes: { title: 'Reportes', icon: ICONS.barChart, render: renderReportes },
-=======
-  movimientos: { title: 'Movimientos', icon: ICONS.swap, render: () => renderPlaceholder('Movimientos') },
-  reportes: { title: 'Reportes', icon: ICONS.barChart, render: () => renderPlaceholder('Reportes') },
->>>>>>> 1f56580bc884ee96a8a9ce579bf1cb7982602bda
   configuracion: { title: 'Configuración', icon: ICONS.settings, render: renderConfiguracion },
 };
 
@@ -61,8 +53,4 @@ export function initRouter() {
   buildSidebar();
   renderRoute();
   window.addEventListener('hashchange', renderRoute);
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> 1f56580bc884ee96a8a9ce579bf1cb7982602bda
