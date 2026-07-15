@@ -38,7 +38,11 @@ function tarjetaTema(nombre, previewClass, activo) {
     <button class="tema-btn flex flex-col items-center gap-3 p-4 rounded-xl border-2 transition
                     ${activo ? 'border-blue-900' : 'border-slate-200 hover:border-slate-300'}">
       <div class="w-full h-16 rounded-lg ${previewClass}"></div>
+<<<<<<< HEAD
 
+=======
+      <div class="flex items-center gap-1.5 text-sm font-medium text-slate-700">
+>>>>>>> 1f56580bc884ee96a8a9ce579bf1cb7982602bda
         ${nombre}
         ${activo ? '<span class="text-blue-900">✓</span>' : ''}
       </div>
