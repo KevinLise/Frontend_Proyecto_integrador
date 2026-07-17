@@ -1,0 +1,29 @@
+{
+  "name": "frontend_proyecto_integrador-main",
+  "version": "1.0.0",
+  "description": "SPA en JavaScript Vanilla — Bootstrap 5 + Vite",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/KevinLise/Frontend_Proyecto_integrador.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/KevinLise/Frontend_Proyecto_integrador/issues"
+  },
+  "homepage": "https://github.com/KevinLise/Frontend_Proyecto_integrador#readme",
+  "dependencies": {
+    "@popperjs/core": "^2.11.8",
+    "bootstrap": "^5.3.3"
+  },
+  "devDependencies": {
+    "vite": "^8.1.5"
+  }
+}
