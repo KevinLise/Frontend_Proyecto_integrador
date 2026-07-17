@@ -54,13 +54,11 @@ function populateUserInfo(user) {
 
 // Genera los links del sidebar automáticamente a partir de ROUTES.
 function buildSidebar() {
-  // Mantiene el encabezado "Operación" y agrega los links
   const linksHtml = Object.entries(ROUTES)
     .map(([key, route]) => `
       <a href="#${key}"
          data-route="${key}"
-         class="nav-link flex items-center gap-3 px-3 py-2.5 rounded-lg
-                hover:bg-slate-50 text-slate-600 text-sm font-medium transition">
+         class="nav-link-sidebar">
         ${route.icon}
         <span>${route.title}</span>
       </a>
@@ -68,7 +66,8 @@ function buildSidebar() {
     .join('');
 
   navEl.innerHTML = `
-    <p class="px-3 pb-2 text-[11px] uppercase tracking-wider text-slate-400 font-semibold">
+    <p class="px-3 pb-2 text-uppercase fw-semibold text-secondary"
+       style="font-size:11px;letter-spacing:.07em;">
       Operación
     </p>
     ${linksHtml}
@@ -82,11 +81,9 @@ function renderRoute() {
 
   appEl.innerHTML = route.render();
 
-  document.querySelectorAll('.nav-link').forEach(link => {
+  document.querySelectorAll('.nav-link-sidebar').forEach(link => {
     const isActive = link.dataset.route === hash;
-    link.classList.toggle('bg-slate-900', isActive);
-    link.classList.toggle('text-white',   isActive);
-    link.classList.toggle('text-slate-600', !isActive);
+    link.classList.toggle('active', isActive);
   });
 }
 

@@ -1,2 +1,182 @@
-/* Estilos personalizados adicionales a Tailwind.
-   Cuando migren de Tailwind CDN a Tailwind CLI, aquí van las directivas @tailwind. */
+/* =====================================================
+   JACKS-STOCK — Estilos globales (Bootstrap 5 base)
+   ===================================================== */
+
+/* ── Colores de marca ────────────────────────────────── */
+:root {
+  --js-dark:    #1a2234;   /* panel oscuro login/registro */
+  --js-primary: #1e3a5f;   /* azul oscuro principal       */
+  --js-accent:  #f97316;   /* naranja acento               */
+}
+
+/* ── Reset body ──────────────────────────────────────── */
+body {
+  background-color: #f1f5f9;
+}
+
+/* ── App shell hidden state ──────────────────────────── */
+#app-shell.d-none {
+  display: none !important;
+}
+
+/* ── Sidebar nav links ───────────────────────────────── */
+.nav-link-sidebar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: .875rem;
+  font-weight: 500;
+  color: #475569;
+  text-decoration: none;
+  transition: background .15s, color .15s;
+}
+.nav-link-sidebar:hover {
+  background: #f8fafc;
+  color: #0f172a;
+}
+.nav-link-sidebar.active {
+  background: #0f172a;
+  color: #ffffff;
+}
+.nav-link-sidebar.active svg {
+  stroke: #ffffff;
+}
+
+/* ── Panel oscuro (login / registro) ─────────────────── */
+.panel-dark {
+  background-color: var(--js-dark);
+  position: relative;
+  overflow: hidden;
+}
+.panel-dark .grid-bg {
+  position: absolute;
+  inset: 0;
+  opacity: .07;
+  pointer-events: none;
+  background-image:
+    linear-gradient(#fff 1px, transparent 1px),
+    linear-gradient(90deg, #fff 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+/* ── Tarjetas KPI (dashboard / productos) ────────────── */
+.kpi-card {
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 1px 3px rgba(0,0,0,.06);
+}
+
+/* ── Tabla con bordes suaves ─────────────────────────── */
+.table-jacks thead th {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  color: #94a3b8;
+  font-weight: 500;
+  background: #f8fafc;
+  border-bottom: 1px solid #e2e8f0;
+}
+.table-jacks tbody tr:hover {
+  background: #f8fafc;
+}
+
+/* ── Badges de estado ────────────────────────────────── */
+.badge-ok   { background:#dcfce7; color:#16a34a; }
+.badge-warn { background:#fef9c3; color:#ca8a04; }
+.badge-low  { background:#fee2e2; color:#dc2626; }
+
+/* ── Barra de fortaleza de contraseña ────────────────── */
+.strength-bar {
+  height: 4px;
+  flex: 1;
+  border-radius: 999px;
+  background: #e2e8f0;
+  transition: background .2s;
+}
+.strength-1 { background: #f87171; }   /* rojo   */
+.strength-2 { background: #fb923c; }   /* naranja*/
+.strength-3 { background: #facc15; }   /* amarillo*/
+.strength-4 { background: #22c55e; }   /* verde  */
+
+/* ── Spinner de carga ────────────────────────────────── */
+.spinner-xs {
+  width: 16px;
+  height: 16px;
+  border-width: 2px;
+}
+
+/* ── Toggle switch custom (configuración) ────────────── */
+.form-switch .form-check-input {
+  width: 2.5em;
+  height: 1.4em;
+  cursor: pointer;
+}
+.form-switch .form-check-input:checked {
+  background-color: var(--js-primary);
+  border-color: var(--js-primary);
+}
+
+/* ── Config nav links (panel lateral configuración) ──── */
+.config-nav-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 8px 12px;
+  border: none;
+  background: transparent;
+  border-radius: 8px;
+  font-size: .875rem;
+  color: #475569;
+  text-align: left;
+  transition: background .15s;
+  cursor: pointer;
+}
+.config-nav-btn:hover  { background: #f8fafc; }
+.config-nav-btn.active { background: #f1f5f9; color: #0f172a; font-weight: 600; }
+
+/* ── Botón primario de la marca ──────────────────────── */
+.btn-brand {
+  background-color: #0f172a;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  font-size: .875rem;
+  font-weight: 600;
+  transition: background .15s;
+}
+.btn-brand:hover  { background-color: #1e293b; color: #fff; }
+.btn-brand:active { background-color: #000; }
+.btn-brand:disabled { opacity: .6; cursor: not-allowed; }
+
+/* ── Inputs con bordes suaves ────────────────────────── */
+.input-jacks {
+  border-radius: 10px;
+  border: 1px solid #e2e8f0;
+  font-size: .875rem;
+  padding: .625rem .875rem;
+  transition: border-color .15s, box-shadow .15s;
+}
+.input-jacks:focus {
+  outline: none;
+  border-color: #94a3b8;
+  box-shadow: 0 0 0 3px rgba(15,23,42,.08);
+}
+.input-jacks.is-valid-custom   { border-color: #22c55e; }
+.input-jacks.is-invalid-custom { border-color: #f87171; }
+
+/* ── Animación pulse (badge online) ─────────────────── */
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: .4; }
+}
+.animate-pulse { animation: pulse 2s cubic-bezier(.4,0,.6,1) infinite; }
+
+/* ── Scroll fino ─────────────────────────────────────── */
+::-webkit-scrollbar       { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }

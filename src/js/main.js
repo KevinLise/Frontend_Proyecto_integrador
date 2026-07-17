@@ -1,3 +1,8 @@
+// ── Importar Bootstrap 5 (JS + CSS) y estilos custom ──
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap';
+import '../css/styles.css';
+
 import { initRouter } from './router.js';
 import { renderLogin } from './views/login.js';
 
@@ -41,14 +46,16 @@ export function logout() {
 }
 
 function showLogin() {
-  shell.classList.add('hidden');
+  shell.classList.add('d-none');
+  shell.style.display = '';   // deja que Bootstrap controle display
   root.innerHTML = '';
   renderLogin();
 }
 
 function showApp(user) {
   root.innerHTML = '';        // limpia la pantalla de login
-  shell.classList.remove('hidden');
+  shell.classList.remove('d-none');
+  shell.style.display = 'flex'; // restaura el flex layout del app-shell
   initRouter(user);           // arranca el router pasándole el usuario
 }
 
