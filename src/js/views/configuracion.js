@@ -1,147 +1,129 @@
-// ============================================================
-// VISTA: CONFIGURACIÓN
-// Es una sola página larga (scroll), con un mini-menú a la
-// izquierda que apunta a cada sección (ver nota "PENDIENTE" al final).
-//
-// DECISIÓN: los switches on/off son 100% CSS (checkbox oculto +
-// la clase "peer" de Tailwind), no JavaScript, porque así el
-// compañero de lógica solo necesita leer el estado del checkbox
-// al guardar el formulario — no depende de que él conecte nada
-// para que el switch se vea y se mueva correctamente.
-// ============================================================
 import { ICONS } from '../icons.js';
 
-// Cada switch de notificación se genera con esta función para no
-// repetir el mismo bloque de HTML 4 veces.
-function switchNotificacion(titulo, descripcion, activadoPorDefecto) {
+// Genera un switch Bootstrap (form-switch) para la sección notificaciones
+function switchNotificacion(id, titulo, descripcion, activado) {
   return `
-    <div class="flex items-start justify-between gap-4 py-4 border-b border-slate-100 last:border-0">
+    <div class="d-flex align-items-start justify-content-between gap-3 py-3
+                border-bottom" style="border-color:#f1f5f9!important;">
       <div>
-        <p class="text-sm font-medium text-slate-800">${titulo}</p>
-        <p class="text-xs text-slate-400 mt-0.5">${descripcion}</p>
+        <p class="fw-medium mb-0" style="font-size:.875rem;">${titulo}</p>
+        <p class="text-secondary mb-0" style="font-size:.75rem;">${descripcion}</p>
       </div>
-      <label class="relative inline-flex items-center cursor-pointer shrink-0">
-        <input type="checkbox" class="sr-only peer" ${activadoPorDefecto ? 'checked' : ''}>
-        <div class="w-11 h-6 bg-slate-200 rounded-full peer
-                    peer-checked:bg-blue-900
-                    after:content-[''] after:absolute after:top-[2px] after:left-[2px]
-                    after:bg-white after:rounded-full after:h-5 after:w-5
-                    after:transition-all peer-checked:after:translate-x-5"></div>
-      </label>
+      <div class="form-check form-switch mb-0 flex-shrink-0">
+        <input class="form-check-input" type="checkbox" id="${id}" ${activado ? 'checked' : ''}>
+      </div>
     </div>
   `;
 }
 
-// Tarjeta de selección de tema (Claro/Automático/Oscuro).
-function tarjetaTema(nombre, previewClass, activo) {
+// Tarjeta de tema visual
+function tarjetaTema(nombre, previewClass, previewStyle, activo) {
   return `
-    <button class="tema-btn flex flex-col items-center gap-3 p-4 rounded-xl border-2 transition
-                    ${activo ? 'border-blue-900' : 'border-slate-200 hover:border-slate-300'}">
-      <div class="w-full h-16 rounded-lg ${previewClass}"></div>
-      <div class="flex items-center gap-1.5 text-sm font-medium text-slate-700">
-        ${nombre}
-        ${activo ? '<span class="text-blue-900">✓</span>' : ''}
-      </div>
+    <button class="tema-btn btn border d-flex flex-column align-items-center gap-2 p-3 rounded-3
+                   ${activo ? 'border-dark border-2' : 'border-secondary-subtle'}"
+            style="flex:1;min-width:80px;">
+      <div class="w-100 rounded-2 ${previewClass}" style="height:56px;${previewStyle}"></div>
+      <span class="fw-medium d-flex align-items-center gap-1" style="font-size:.8rem;">
+        ${nombre} ${activo ? '<span class="text-dark">✓</span>' : ''}
+      </span>
     </button>
   `;
 }
 
 export function renderConfiguracion() {
   return `
-    <div class="mb-6">
-      <p class="text-[11px] uppercase tracking-widest text-slate-400 font-medium mb-1">Ajustes</p>
-      <h1 class="text-2xl font-bold text-slate-900">Configuración</h1>
-      <p class="text-sm text-slate-400 mt-1">Administra tu cuenta, empresa y preferencias del sistema.</p>
+    <div class="mb-4">
+      <p class="text-uppercase fw-semibold text-secondary mb-1" style="font-size:.7rem;letter-spacing:.08em;">Ajustes</p>
+      <h1 class="fw-bold mb-1" style="font-size:1.5rem;">Configuración</h1>
+      <p class="text-secondary mb-0" style="font-size:.875rem;">
+        Administra tu cuenta, empresa y preferencias del sistema.
+      </p>
     </div>
 
-    <div class="grid grid-cols-1 lg:grid-cols-[220px_1fr] gap-6 items-start">
+    <div class="row g-4 align-items-start">
 
-      <nav class="bg-white rounded-2xl border border-slate-100 shadow-sm p-2 text-sm sticky top-6">
-        <button data-target="config-cuenta" class="config-nav-link w-full text-left flex items-center gap-2.5 px-3 py-2.5 rounded-lg bg-slate-100 text-slate-900 font-medium">
-          ${ICONS.user} Cuenta
-        </button>
-        <button data-target="config-empresa" class="config-nav-link w-full text-left flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-slate-600 hover:bg-slate-50">
-          ${ICONS.building} Empresa
-        </button>
-        <button data-target="config-notificaciones" class="config-nav-link w-full text-left flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-slate-600 hover:bg-slate-50">
-          ${ICONS.bell} Notificaciones
-        </button>
-        <button data-target="config-seguridad" class="config-nav-link w-full text-left flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-slate-600 hover:bg-slate-50">
-          ${ICONS.shield} Seguridad
-        </button>
-        <button data-target="config-apariencia" class="config-nav-link w-full text-left flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-slate-600 hover:bg-slate-50">
-          ${ICONS.palette} Apariencia
-        </button>
-        <button data-target="config-api" class="config-nav-link w-full text-left flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-slate-600 hover:bg-slate-50">
-          ${ICONS.api} API &amp; Integraciones
-        </button>
-      </nav>
+      <!-- Nav lateral -->
+      <div class="col-12 col-lg-3">
+        <div class="bg-white rounded-3 border p-2" style="border-color:#e2e8f0!important;position:sticky;top:80px;">
+          <button data-target="config-cuenta"
+                  class="config-nav-btn active">${ICONS.user} Cuenta</button>
+          <button data-target="config-empresa"
+                  class="config-nav-btn">${ICONS.building} Empresa</button>
+          <button data-target="config-notificaciones"
+                  class="config-nav-btn">${ICONS.bell} Notificaciones</button>
+          <button data-target="config-seguridad"
+                  class="config-nav-btn">${ICONS.shield} Seguridad</button>
+          <button data-target="config-apariencia"
+                  class="config-nav-btn">${ICONS.palette} Apariencia</button>
+          <button data-target="config-api"
+                  class="config-nav-btn">${ICONS.api} API &amp; Integraciones</button>
+        </div>
+      </div>
 
-      <div class="space-y-6">
+      <!-- Secciones -->
+      <div class="col-12 col-lg-9 d-flex flex-column gap-4">
 
-        <section id="config-cuenta" class="bg-white rounded-2xl border border-slate-100 shadow-sm p-6">
-          <div class="flex items-center justify-between mb-6">
-            <div class="flex items-center gap-4">
-              <div class="w-12 h-12 rounded-full bg-blue-900 text-white flex items-center justify-center font-semibold">MR</div>
+        <!-- Cuenta -->
+        <section id="config-cuenta" class="bg-white rounded-3 border p-4"
+                 style="border-color:#e2e8f0!important;">
+          <div class="d-flex align-items-center justify-content-between mb-4">
+            <div class="d-flex align-items-center gap-3">
+              <div class="rounded-circle bg-primary text-white d-flex align-items-center
+                          justify-content-center fw-semibold flex-shrink-0"
+                   style="width:48px;height:48px;">MR</div>
               <div>
-                <p class="font-semibold text-slate-900">Mariana Ríos</p>
-                <p class="text-xs text-slate-400">Administradora · Almacén Central</p>
+                <p class="fw-semibold mb-0">Mariana Ríos</p>
+                <p class="text-secondary mb-0" style="font-size:.75rem;">Administradora · Almacén Central</p>
               </div>
             </div>
-            <button class="px-4 h-9 rounded-xl border border-slate-200 text-sm font-medium text-slate-700 hover:bg-slate-50 inline-flex items-center gap-2">
+            <button class="btn btn-outline-secondary btn-sm d-inline-flex align-items-center gap-2">
               ${ICONS.camera} Cambiar foto
             </button>
           </div>
-
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div>
-              <label class="text-xs font-medium text-slate-500">Nombre completo</label>
-              <input type="text" value="Mariana Ríos Salgado"
-                class="mt-1 w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-900/10">
+          <div class="row g-3">
+            <div class="col-12 col-sm-6">
+              <label class="form-label text-secondary" style="font-size:.75rem;font-weight:500;">Nombre completo</label>
+              <input type="text" value="Mariana Ríos Salgado" class="form-control input-jacks">
             </div>
-            <div>
-              <label class="text-xs font-medium text-slate-500">Correo corporativo</label>
-              <input type="email" value="mariana.rios@stocksmart.co"
-                class="mt-1 w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-900/10">
+            <div class="col-12 col-sm-6">
+              <label class="form-label text-secondary" style="font-size:.75rem;font-weight:500;">Correo corporativo</label>
+              <input type="email" value="mariana.rios@stocksmart.co" class="form-control input-jacks">
             </div>
-            <div>
-              <label class="text-xs font-medium text-slate-500">Cargo</label>
-              <input type="text" value="Jefa de almacén"
-                class="mt-1 w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-900/10">
+            <div class="col-12 col-sm-6">
+              <label class="form-label text-secondary" style="font-size:.75rem;font-weight:500;">Cargo</label>
+              <input type="text" value="Jefa de almacén" class="form-control input-jacks">
             </div>
-            <div>
-              <label class="text-xs font-medium text-slate-500">Teléfono</label>
-              <input type="tel" value="+57 320 812 4409"
-                class="mt-1 w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-900/10">
+            <div class="col-12 col-sm-6">
+              <label class="form-label text-secondary" style="font-size:.75rem;font-weight:500;">Teléfono</label>
+              <input type="tel" value="+57 320 812 4409" class="form-control input-jacks">
             </div>
           </div>
         </section>
 
-        <section id="config-empresa" class="bg-white rounded-2xl border border-slate-100 shadow-sm p-6">
-          <h2 class="font-semibold text-slate-900">Empresa</h2>
-          <p class="text-xs text-slate-400 mt-0.5 mb-5">Datos fiscales y del centro logístico.</p>
-
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div>
-              <label class="text-xs font-medium text-slate-500">Razón social</label>
-              <input type="text" value="Logística Andina S.A.S."
-                class="mt-1 w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-900/10">
+        <!-- Empresa -->
+        <section id="config-empresa" class="bg-white rounded-3 border p-4"
+                 style="border-color:#e2e8f0!important;">
+          <h2 class="fw-semibold mb-1" style="font-size:1rem;">Empresa</h2>
+          <p class="text-secondary mb-4" style="font-size:.75rem;">Datos fiscales y del centro logístico.</p>
+          <div class="row g-3">
+            <div class="col-12 col-sm-6">
+              <label class="form-label text-secondary" style="font-size:.75rem;font-weight:500;">Razón social</label>
+              <input type="text" value="Logística Andina S.A.S." class="form-control input-jacks">
             </div>
-            <div>
-              <label class="text-xs font-medium text-slate-500">NIT</label>
-              <input type="text" value="900.482.117-3"
-                class="mt-1 w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-900/10">
+            <div class="col-12 col-sm-6">
+              <label class="form-label text-secondary" style="font-size:.75rem;font-weight:500;">NIT</label>
+              <input type="text" value="900.482.117-3" class="form-control input-jacks">
             </div>
-            <div>
-              <label class="text-xs font-medium text-slate-500">Moneda base</label>
-              <select class="mt-1 w-full border border-slate-200 rounded-lg px-3 py-2 text-sm">
+            <div class="col-12 col-sm-6">
+              <label class="form-label text-secondary" style="font-size:.75rem;font-weight:500;">Moneda base</label>
+              <select class="form-select input-jacks">
                 <option>COP · Peso colombiano</option>
                 <option>USD · Dólar estadounidense</option>
               </select>
             </div>
-            <div>
-              <label class="text-xs font-medium text-slate-500">Zona horaria</label>
-              <select class="mt-1 w-full border border-slate-200 rounded-lg px-3 py-2 text-sm">
+            <div class="col-12 col-sm-6">
+              <label class="form-label text-secondary" style="font-size:.75rem;font-weight:500;">Zona horaria</label>
+              <select class="form-select input-jacks">
                 <option>América / Bogotá (GMT-5)</option>
                 <option>América / Ciudad de México (GMT-6)</option>
               </select>
@@ -149,66 +131,66 @@ export function renderConfiguracion() {
           </div>
         </section>
 
-        <section id="config-notificaciones" class="bg-white rounded-2xl border border-slate-100 shadow-sm p-6">
-          <h2 class="font-semibold text-slate-900">Notificaciones</h2>
-          <p class="text-xs text-slate-400 mt-0.5 mb-2">Elige qué eventos disparan alertas.</p>
+        <!-- Notificaciones -->
+        <section id="config-notificaciones" class="bg-white rounded-3 border p-4"
+                 style="border-color:#e2e8f0!important;">
+          <h2 class="fw-semibold mb-1" style="font-size:1rem;">Notificaciones</h2>
+          <p class="text-secondary mb-2" style="font-size:.75rem;">Elige qué eventos disparan alertas.</p>
+          ${switchNotificacion('notif-stock-bajo',  'Stock bajo mínimo',    'Envía correo cuando un SKU cae por debajo del mínimo definido.', true)}
+          ${switchNotificacion('notif-critico',     'Stock crítico',         'Alerta inmediata al llegar a niveles críticos.', true)}
+          ${switchNotificacion('notif-resumen',     'Resumen diario',        'Correo con KPIs y movimientos del día a las 07:00.', false)}
+          ${switchNotificacion('notif-inusuales',   'Movimientos inusuales', 'Detecta salidas atípicas por hora o volumen.', true)}
+        </section>
 
-          <div>
-            ${switchNotificacion('Stock bajo mínimo', 'Envía correo cuando un SKU cae por debajo del mínimo definido.', true)}
-            ${switchNotificacion('Stock crítico', 'Alerta inmediata al llegar a niveles críticos.', true)}
-            ${switchNotificacion('Resumen diario', 'Correo con KPIs y movimientos del día a las 07:00.', false)}
-            ${switchNotificacion('Movimientos inusuales', 'Detecta salidas atípicas por hora o volumen.', true)}
+        <!-- Seguridad -->
+        <section id="config-seguridad" class="bg-white rounded-3 border p-4"
+                 style="border-color:#e2e8f0!important;">
+          <h2 class="fw-semibold mb-1" style="font-size:1rem;">Seguridad</h2>
+          <p class="text-secondary mb-4" style="font-size:.75rem;">Contraseña y verificación en dos pasos.</p>
+          <div class="mb-3">
+            <label class="form-label text-secondary" style="font-size:.75rem;font-weight:500;">Nueva contraseña</label>
+            <input type="password" placeholder="••••••••" class="form-control input-jacks">
+          </div>
+          ${switchNotificacion('notif-2fa', 'Verificación en dos pasos', 'Pide un código adicional al iniciar sesión.', false)}
+        </section>
+
+        <!-- Apariencia -->
+        <section id="config-apariencia" class="bg-white rounded-3 border p-4"
+                 style="border-color:#e2e8f0!important;">
+          <h2 class="fw-semibold mb-1" style="font-size:1rem;">Apariencia</h2>
+          <p class="text-secondary mb-4" style="font-size:.75rem;">Selecciona el tema de la interfaz.</p>
+          <div class="d-flex gap-3" id="selector-tema">
+            ${tarjetaTema('Claro',      'border',   'background:#fff;',          true)}
+            ${tarjetaTema('Automático', '',         'background:linear-gradient(135deg,#fff 50%,#334155 50%);', false)}
+            ${tarjetaTema('Oscuro',     'bg-dark',  '',                          false)}
           </div>
         </section>
 
-        <section id="config-seguridad" class="bg-white rounded-2xl border border-slate-100 shadow-sm p-6">
-          <h2 class="font-semibold text-slate-900">Seguridad</h2>
-          <p class="text-xs text-slate-400 mt-0.5 mb-5">Contraseña y verificación en dos pasos.</p>
-          <div class="space-y-4">
-            <div>
-              <label class="text-xs font-medium text-slate-500">Nueva contraseña</label>
-              <input type="password" placeholder="••••••••"
-                class="mt-1 w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-900/10">
-            </div>
-            ${switchNotificacion('Verificación en dos pasos', 'Pide un código adicional al iniciar sesión.', false)}
+        <!-- API -->
+        <section id="config-api" class="bg-white rounded-3 border p-4"
+                 style="border-color:#e2e8f0!important;">
+          <h2 class="fw-semibold mb-1" style="font-size:1rem;">API &amp; Integraciones</h2>
+          <p class="text-secondary mb-4" style="font-size:.75rem;">Conecta servicios externos.</p>
+          <div class="d-flex align-items-center justify-content-center rounded-3 border border-dashed"
+               style="min-height:120px;border-color:#cbd5e1!important;">
+            <p class="text-secondary mb-0" style="font-size:.875rem;">Sin integraciones configuradas todavía</p>
           </div>
         </section>
 
-        <section id="config-apariencia" class="bg-white rounded-2xl border border-slate-100 shadow-sm p-6">
-          <h2 class="font-semibold text-slate-900">Apariencia</h2>
-          <p class="text-xs text-slate-400 mt-0.5 mb-5">Selecciona el tema de la interfaz.</p>
-
-          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4" id="selector-tema">
-            ${tarjetaTema('Claro', 'bg-white border border-slate-200', true)}
-            ${tarjetaTema('Automático', 'bg-gradient-to-br from-white to-slate-700', false)}
-            ${tarjetaTema('Oscuro', 'bg-slate-800', false)}
-          </div>
-        </section>
-
-        <section id="config-api" class="bg-white rounded-2xl border border-slate-100 shadow-sm p-6">
-          <h2 class="font-semibold text-slate-900">API &amp; Integraciones</h2>
-          <p class="text-xs text-slate-400 mt-0.5 mb-5">Conecta servicios externos (pendiente definir con el equipo).</p>
-          <div class="flex flex-col items-center justify-center h-32 border border-dashed border-slate-300 rounded-xl text-center">
-            <p class="text-slate-400 text-sm">Sin integraciones configuradas todavía</p>
-          </div>
-        </section>
-
-        <div class="flex justify-end gap-3 pb-6">
-          <button id="btn-cancelar-config" class="px-5 h-10 rounded-xl border border-slate-200 text-sm font-medium text-slate-700 hover:bg-slate-50">
+        <!-- Botones guardar -->
+        <div class="d-flex justify-content-end gap-3 pb-2">
+          <button id="btn-cancelar-config" class="btn btn-outline-secondary px-4">
             Cancelar
           </button>
-          <button id="btn-guardar-config" class="px-5 h-10 rounded-xl bg-blue-900 text-white text-sm font-medium hover:bg-blue-800">
+          <button id="btn-guardar-config" class="btn btn-brand px-4">
             Guardar cambios
           </button>
         </div>
-      </div>
-    </div>
+
+      </div><!-- /col secciones -->
+    </div><!-- /row -->
   `;
 }
 
-// PENDIENTE (le corresponde al compañero de lógica):
-// Los botones del mini-menú (clase .config-nav-link) tienen un
-// atributo data-target con el id de la sección a la que deben
-// llevar (ej. data-target="config-empresa"). Falta agregar el
-// addEventListener que, al hacer clic, haga scroll o cambie de
-// sección visible según ese id.
+// PENDIENTE (lógica): los botones .config-nav-btn tienen data-target con el id de
+// cada sección. Conectar click → scroll o mostrar/ocultar sección según ese id.
